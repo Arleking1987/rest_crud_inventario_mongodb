@@ -1,0 +1,179 @@
+openapi: 3.0.3
+info:
+  title: API para el manejo de inventario de una empresa de lenceria para cama - OpenAPI 3.0
+  description: |-
+    Esta es una parte del repertorio de metodos que va a tener el api de manejo de inventario de la empresa Becotton el cual está hecho con Python, flask y mongoDB.
+
+    _El sistema de inventario será una parte integradora de un ecosistema robusto que será realizado en diferentes tecnologias_
+    
+    Links de utilidad:
+    - [Repositorio del api en python](https://github.com/Arleking1987/rest_crud_inventario_mongodb/tree/master)
+    - [La documentación de esta API estara alojada en el siguiente repositorio](https://github.com/Arleking1987/rest_crud_inventario_mongodb/blob/master/documentation.yaml)
+    - [El repositorio del front que consume esta API es el siguiente](https://github.com/Arleking1987/inventario-angular-web/tree/master)
+  
+  version: 1.0.11
+
+servers:
+  - url: http://127.0.0.1:5000/api/
+tags:
+  - name: productos
+    description: Este endpoint maneja toda la información relacionada al producto terminado de la empresa
+    
+paths:
+  /productos: 
+    post:
+      tags:
+        - productos
+      summary: Agrega un nuevo producto al inventario
+      description: Agrega un nuevo producto al inventario
+      operationId: agregarProducto
+      requestBody:
+        description: Crea un nuevo producto en el inventario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyProductos'
+        required: true
+      responses:
+        '204':
+          description: Operación exitosa pero sin respuesta
+          
+        '405':
+          description: Excepcion no controlada
+        '500':
+          description: Error en el servidor
+    get:
+      tags:
+        - productos
+      summary: Traer todos los productos
+      description: Se traen todos los productos disponibles
+      operationId: buscarProductos
+      responses:
+        '200':
+          description: operacion exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BodyProductos'          
+        '500':
+           description: Error en el servidor
+         
+  /productos/{idProducto}:
+    put:
+      tags:
+        - productos
+      summary: Actualizar un producto existente
+      description: Actualiza un producto existente por Id
+      operationId: actualizarProducto
+      parameters:
+        - name: idProducto
+          in: path
+          description: id del producto para actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Actualizar un producto existente en el inventario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyProductos'
+        required: true
+      responses:
+        '204':
+          description: Operación exitosa pero sin respuesta
+        '405':
+          description: Excepcion no controlada
+        '500':
+          description: Error en el servidor
+    get:
+      tags:
+        - productos
+      summary: Encontrar productos por id
+      description: Por medio del id se puede encontrar un producto específico
+      operationId: buscarProducto
+      parameters:
+        - name: idProducto
+          in: path
+          description: id del producto a buscar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: operacion exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/BodyProductos'          
+        '404':
+          description: Producto no encontrado
+        '405':
+          description: Excepcion no controlada
+        '500':
+         description: Error en el servidor
+     
+    delete:
+      tags:
+        - productos
+      summary: Eliminar un producto
+      description: elimina un producto por su id
+      operationId: deletePet
+      parameters:
+        - name: idProducto
+          in: path
+          description: id del producto a eliminar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Producto no encontrado
+        '405':
+          description: Excepcion no controlada
+        '500':
+         description: Error en el servidor
+  
+components:
+  schemas:
+    BodyProductos:
+        type: object
+        properties:
+          product_id: 
+            type: integer
+            description: el id o referencia  del producto
+          product_name:
+            type: string
+            description: El nombre del producto
+          product_estado:
+            type: string
+            description: El estado del producto
+          product_tipeProduct:
+            type: string
+            description: La naturaleza del producto
+          product_quantity:
+            type: integer
+            description: cantidad del producto
+          product_description:
+            type: string
+            description: breve descripcion del producto
+          product_image:
+            type: string
+            description: url de la imagen
+   
+    
+   
+    
+   
+     
+      
+  
+   
+ 
